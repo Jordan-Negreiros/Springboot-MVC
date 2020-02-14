@@ -24,17 +24,35 @@
 
     <br/>
     <br/>
+
+    <form action="/pesquisarpessoa" method="post">
+        <label>Pesquisa por nome:</label>
+        <input name="nomepesquisa">
+        <input type="submit" value="Buscar" class="waves-effect waves-light btn" style="width: 100px">
+    </form>
+
+    <br/>
+    <br/>
     <a href="/listapessoas">Listar Pessoas</a>
     <br/>
     <br/>
 
-    <table>
+    <table class="centered">
+        <tr>
+            <td>ID</td>
+            <td>NOME</td>
+            <td>SOBRENOME</td>
+            <td>IDADE</td>
+            <td>EDITAR</td>
+            <td>EXCLUIR</td>
+        </tr>
         <tr th:each="pessoa : ${pessoas}">
             <td th:text="${pessoa.id}"> </td>
             <td th:text="${pessoa.nome}"> </td>
             <td th:text="${pessoa.sobrenome}"> </td>
             <td th:text="${pessoa.idade}"> </td>
             <td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa = ${pessoa.id})}">Editar</a></td>
+            <td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa = ${pessoa.id})}">Excluir</a></td>
         </tr>
     </table>
 
