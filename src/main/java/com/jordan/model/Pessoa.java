@@ -1,4 +1,4 @@
-package com.jordan.springboot.model;
+package com.jordan.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Pessoa implements Serializable{
+public class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -16,6 +16,15 @@ public class Pessoa implements Serializable{
 
     private String nome;
     private String sobrenome;
+    private int idade;
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
 
     public Long getId() {
         return id;
@@ -41,3 +50,4 @@ public class Pessoa implements Serializable{
         this.sobrenome = sobrenome;
     }
 }
+
