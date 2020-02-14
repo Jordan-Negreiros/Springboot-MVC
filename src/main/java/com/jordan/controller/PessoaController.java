@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.WebParam;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +19,8 @@ public class PessoaController {
     public ModelAndView inicio() {
 
         ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
+        Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
+        andView.addObject("pessoas", pessoaIterable);
         andView.addObject("pessoaobj", new Pessoa());
         return andView;
     }
@@ -75,6 +76,16 @@ public class PessoaController {
         ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
         andView.addObject("pessoas", pessoaRepository.findPessoaByName(nomepesquisa));
         andView.addObject("pessoaobj", new Pessoa());
+
+        return andView;
+    }
+
+    @GetMapping("/telefones/{idpessoa}")
+    public ModelAndView telefones(@PathVariable("idpessoa") Long idpessoa) {
+
+        ModelAndView andView = new ModelAndView("cadastro/telefones");
+        Optional<Pessoa> pessoa = pessoaRepository.findById(idpessoa);
+        andView.addObject("pessoaobj", pessoa.get());
 
         return andView;
     }
