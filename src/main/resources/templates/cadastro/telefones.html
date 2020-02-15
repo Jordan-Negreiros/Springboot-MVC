@@ -66,6 +66,32 @@
         </div>
     </form>
 </div>
+<br/>
+<br/>
+<nav>
+    <div class="nav-wrapper teal lighten-2">
+        <a href="#" class="brand-logo center">Telefones Cadastrados</a>
+        <ul id="nav-mobile3" class="left hide-on-med-and-down">
+        </ul>
+    </div>
+</nav>
+<br/>
+<br/>
+<table class="centered striped">
+    <tr style="font-weight: bold">
+        <td>Número</td>
+        <td>Tipo</td>
+        <td>Editar</td>
+        <td>Excluir</td>
+    </tr>
+
+    <tr th:each="fone : ${telefones}">
+        <td th:text="${fone.numero}"></td>
+        <td th:text="${fone.tipo}"></td>
+        <td><a>Editar</a></td>
+        <td><a th:href="@{/removertelefone/{idtelefone}(idtelefone = ${fone.id})}">Excluir</a></td>
+    </tr>
+</table>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/materialize.min.js"></script>
 </body>

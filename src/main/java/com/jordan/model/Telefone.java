@@ -26,11 +26,11 @@ public class Telefone implements Serializable {
         this.id = id;
     }
 
-    public String getnumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setnumero(String numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 

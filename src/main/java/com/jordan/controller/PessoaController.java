@@ -90,7 +90,7 @@ public class PessoaController {
         ModelAndView andView = new ModelAndView("cadastro/telefones");
         Optional<Pessoa> pessoa = pessoaRepository.findById(idpessoa);
         andView.addObject("pessoaobj", pessoa.get());
-
+        andView.addObject("telefones", telefoneRepository.getTelefones(idpessoa));
 
         return andView;
     }
@@ -105,6 +105,21 @@ public class PessoaController {
 
         ModelAndView andView = new ModelAndView("cadastro/telefones");
         andView.addObject("pessoaobj", pessoa);
+        andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
+
+        return andView;
+    }
+
+    @GetMapping("/removertelefone/{idtelefone}")
+    public ModelAndView excluirTelefone(@PathVariable("idtelefone") Long idtelefone) {
+
+        Pessoa pessoa = telefoneRepository.findById(idtelefone).get().getPessoa();
+
+        telefoneRepository.deleteById(idtelefone);
+
+        ModelAndView andView = new ModelAndView("cadastro/telefones");
+        andView.addObject("pessoaobj", pessoa);
+        andView.addObject("telefones", telefoneRepository.getTelefones(pessoa.getId()));
 
         return andView;
     }
