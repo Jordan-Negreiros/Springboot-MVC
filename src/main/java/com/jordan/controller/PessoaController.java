@@ -1,7 +1,9 @@
 package com.jordan.controller;
 
 import com.jordan.model.Pessoa;
+import com.jordan.model.Telefone;
 import com.jordan.repository.PessoaRepository;
+import com.jordan.repository.TelefoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ public class PessoaController {
 
     @Autowired
     private PessoaRepository pessoaRepository;
+    @Autowired
+    private TelefoneRepository telefoneRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
     public ModelAndView inicio() {
@@ -86,6 +90,21 @@ public class PessoaController {
         ModelAndView andView = new ModelAndView("cadastro/telefones");
         Optional<Pessoa> pessoa = pessoaRepository.findById(idpessoa);
         andView.addObject("pessoaobj", pessoa.get());
+
+
+        return andView;
+    }
+
+    @PostMapping("**/addfonepessoa/{pessoaid}")
+    public ModelAndView addFonePessoa(Telefone telefone, @PathVariable("pessoaid") Long pessoaid) {
+
+        Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
+        telefone.setPessoa(pessoa);
+
+        telefoneRepository.save(telefone);
+
+        ModelAndView andView = new ModelAndView("cadastro/telefones");
+        andView.addObject("pessoaobj", pessoa);
 
         return andView;
     }

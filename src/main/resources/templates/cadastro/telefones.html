@@ -13,13 +13,13 @@
 </head>
 <body>
 <nav>
-    <div class="nav-wrapper teal lighten-2">
-        <a href="#" class="brand-logo center">Telefones</a>
-        <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li><a>Início</a></li>
-            <li><a href="/cadastropessoa">Cadastro</a></li>
-        </ul>
-    </div>
+<div class="nav-wrapper teal lighten-2">
+    <a href="#" class="brand-logo center">Telefones</a>
+    <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a>Início</a></li>
+        <li><a href="/cadastropessoa">Cadastro</a></li>
+    </ul>
+</div>
 </nav>
 <br/>
 <br/>
@@ -37,12 +37,35 @@
                 </div>
             </div>
             </div>
-
         </div>
     </div>
 </div>
 <br/>
 <br/>
+<nav>
+    <div class="nav-wrapper teal lighten-2">
+        <a href="#" class="brand-logo center">Cadastro de Telefones</a>
+        <ul id="nav-mobile2" class="left hide-on-med-and-down">
+        </ul>
+    </div>
+</nav>
+<br/>
+<br/>
+<div class="row">
+    <form th:action="@{/addfonepessoa/{pessoaid}(pessoaid = ${pessoaobj.id})}" method="post" class="col s12">
+        <div class="row">
+            <div class="input-field col s6">
+                <label class="active" for="numero">Número</label>
+                <input id="numero" name="numero" class="validate">
+            </div>
+            <div class="input-field col s6">
+                <label class="active" for="tipo">Tipo:</label>
+                <input id="tipo" name="tipo" class="validate">
+            </div>
+            <input class="btn waves-effect waves-light" type="submit" value="Adicionar">
+        </div>
+    </form>
+</div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/materialize.min.js"></script>
 </body>

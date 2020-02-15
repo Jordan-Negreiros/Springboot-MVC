@@ -11,7 +11,7 @@ public class Telefone implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nome;
+    private String numero;
     private String tipo;
 
     @ManyToOne
@@ -26,12 +26,12 @@ public class Telefone implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getnumero() {
+        return numero;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setnumero(String numero) {
+        this.numero = numero;
     }
 
     public String getTipo() {
