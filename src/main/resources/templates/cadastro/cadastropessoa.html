@@ -9,11 +9,14 @@
         form input[type=submit] {
             color: white;
         }
+        body {
+            background-color: #f3e5f5;
+        }
     </style>
 </head>
 <body>
 <nav>
-    <div class="nav-wrapper teal lighten-2">
+    <div class="nav-wrapper deep-purple lighten-2">
         <a href="#" class="brand-logo center">Cadastro Pessoas</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
             <li><a>Início</a></li>
@@ -23,6 +26,9 @@
 </nav>
 <br/>
 <br/>
+    <div th:each="m : ${msg}">
+        <span th:text="${m}"></span>
+    </div>
 <br/>
 <br/>
 <div class="row">
@@ -54,8 +60,8 @@
 
         <div class="row">
             <div class="input-field col s12">
-                <input class="waves-effect waves-light btn" type="submit" value="salvar">
-                <button class="waves-effect waves-light btn" onclick="document.getElementById('formpessoa').reset();">
+                <input class="waves-effect waves-light btn deep-purple lighten-2" type="submit" value="salvar">
+                <button class="waves-effect waves-light btn deep-purple lighten-2" onclick="document.getElementById('formpessoa').reset();">
                     Novo
                 </button>
             </div>
@@ -65,7 +71,7 @@
 <br/>
 
 <nav>
-    <div class="nav-wrapper teal lighten-2">
+    <div class="nav-wrapper deep-purple lighten-2">
         <form action="/pesquisarpessoa" method="post">
             <div class="input-field">
                 <input id="nomepesquisa" name="nomepesquisa" type="search" required>
@@ -81,14 +87,14 @@
 <div class="row">
     <table>
         <div class="input-field col s12">
-            <a href="/listapessoas" class="waves-effect waves-light btn">Listar Pessoas</a>
+            <a href="/listapessoas" class="waves-effect waves-light btn deep-purple lighten-2">Listar Pessoas</a>
         </div>
     </table>
 </div>
 <br/>
 <br/>
 <nav>
-    <div class="nav-wrapper teal lighten-2">
+    <div class="nav-wrapper deep-purple lighten-2">
         <a href="#" class="brand-logo center">Usuários Cadastrados</a>
         <ul id="nav-mobile2" class="left hide-on-med-and-down">
         </ul>
@@ -97,7 +103,7 @@
 <br/>
 <br/>
 
-<table class="centered striped">
+<table class="centered striped purple lighten-5">
     <tr style="font-weight: bold">
         <td>Id</td>
         <td>Nome</td>

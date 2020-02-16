@@ -6,9 +6,14 @@ import com.jordan.repository.PessoaRepository;
 import com.jordan.repository.TelefoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,16 +35,33 @@ public class PessoaController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "**/salvarpessoa")
-    public ModelAndView salvar(Pessoa pessoa) {
-        pessoaRepository.save(pessoa);
+    public ModelAndView salvar(@Valid Pessoa pessoa, BindingResult bindingResult) {
 
-        ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
-        Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
-        andView.addObject("pessoas", pessoaIterable);
+        if (bindingResult.hasErrors()) {
+            ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
 
-        andView.addObject("pessoaobj", new Pessoa());
+            Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
+            andView.addObject("pessoas", pessoaIterable);
+            andView.addObject("pessoaobj", pessoa);
 
-        return andView;
+            List<String> msg = new ArrayList<>();
+            for (ObjectError objectError : bindingResult.getAllErrors()) {
+                msg.add(objectError.getDefaultMessage()); // msg padrão das anotações NotNull e NotEmpty
+            }
+            andView.addObject("msg", msg);
+
+            return andView;
+        } else {
+            pessoaRepository.save(pessoa);
+
+            ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
+
+            Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
+            andView.addObject("pessoas", pessoaIterable);
+            andView.addObject("pessoaobj", new Pessoa());
+
+            return andView;
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/listapessoas")
