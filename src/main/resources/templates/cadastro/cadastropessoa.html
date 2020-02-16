@@ -32,7 +32,7 @@
 <br/>
 <br/>
 <div class="row">
-    <form action="/salvarpessoa" method="post" th:object="${pessoaobj}" class="col s12" id="formpessoa">
+    <form action="/salvarpessoa" method="post" th:object="${pessoaobj}" class="col s12" id="formpessoa" onsubmit="return !!validarCampos()">
         <div class="row">
             <div class="input-field col s6">
                 <label for="id" class="active">ID:</label>
@@ -72,7 +72,7 @@
 
 <nav>
     <div class="nav-wrapper deep-purple lighten-2">
-        <form action="/pesquisarpessoa" method="post">
+        <form action="/pesquisarpessoa" method="post" >
             <div class="input-field">
                 <input id="nomepesquisa" name="nomepesquisa" type="search" required>
                 <label class="label-icon" for="nomepesquisa"><i class="material-icons">search</i></label>
@@ -126,5 +126,31 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/materialize.min.js"></script>
+<script>
+    function validarCampos() {
+
+        nome = document.getElementById('nome').value;
+        sobrenome = document.getElementById('sobrenome').value;
+        idade = document.getElementById('idade').value;
+
+        if (nome === '') {
+            alert('nome deve ser informado');
+            return false;
+        }
+        else if (sobrenome === '') {
+            alert('Sobrenome deve ser informado');
+            return false;
+        }
+        else if (idade === '' || idade == 0) {
+            alert('Idade deve ser informado');
+            return false;
+        }
+        else if (idade > 0 && idade < 18) {
+            alert('Idade deve ser maior que 18');
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 </html>

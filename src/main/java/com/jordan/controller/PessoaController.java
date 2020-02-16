@@ -121,15 +121,34 @@ public class PessoaController {
     public ModelAndView addFonePessoa(Telefone telefone, @PathVariable("pessoaid") Long pessoaid) {
 
         Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
-        telefone.setPessoa(pessoa);
 
-        telefoneRepository.save(telefone);
+        if (telefone != null && telefone.getNumero().isEmpty() || telefone.getTipo().isEmpty()){
+            ModelAndView andView = new ModelAndView("cadastro/telefones");
+            andView.addObject("pessoaobj", pessoa);
+            andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
 
-        ModelAndView andView = new ModelAndView("cadastro/telefones");
-        andView.addObject("pessoaobj", pessoa);
-        andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
+            List<String> msg = new ArrayList<>();
+            andView.addObject("msg", msg);
+            if (telefone.getNumero().isEmpty()) {
+                msg.add("Número deve ser informado");
+            }
+            if (telefone.getTipo().isEmpty()) {
+                msg.add("Tipo deve ser informado");
+            }
+            return andView;
+        } else {
 
-        return andView;
+            telefone.setPessoa(pessoa);
+
+            telefoneRepository.save(telefone);
+
+
+            ModelAndView andView = new ModelAndView("cadastro/telefones");
+            andView.addObject("pessoaobj", pessoa);
+            andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
+
+            return andView;
+        }
     }
 
     @GetMapping("/removertelefone/{idtelefone}")
