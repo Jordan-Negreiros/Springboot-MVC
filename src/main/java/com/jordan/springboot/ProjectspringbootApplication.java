@@ -6,17 +6,23 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.jordan.model")
 @ComponentScan(basePackages = {"com.*"})
 @EnableJpaRepositories(basePackages = {"com.jordan.repository"})
 @EnableTransactionManagement
+
 public class ProjectspringbootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ProjectspringbootApplication.class, args);
+    	
+    	/*
+    	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    	String result = encoder.encode("123456");
+    	System.out.println(result);
+    	*/
     }
 
 }
