@@ -47,69 +47,74 @@
         <form action="/salvarpessoa" method="post" th:object="${pessoaobj}" class="col s12" id="formpessoa"
             onsubmit="return !!validarCampos()">
             <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s1">
                     <label for="id" class="active">ID:</label>
                     <input name="id" th:field="*{id}" readonly="readonly" id="id">
                 </div>
-                <div class="input-field col s6">
+            </div>
+
+            <div class="row">
+                <div class="input-field col s4">
                     <label for="nome" class="active">Nome:</label>
-                    <input name="nome" th:field="*{nome}" id="nome" class="validate">
+                    <input name="nome" th:field="*{nome}" id="nome" class="validate" placeholder="Informe o Nome">
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s4">
                     <label for="sobrenome" class="active">Sobrenome:</label>
-                    <input name="sobrenome" th:field="*{sobrenome}" id="sobrenome" class="validate">
+                    <input name="sobrenome" th:field="*{sobrenome}" id="sobrenome" class="validate"
+                        placeholder="Informe o Sobrenome">
                 </div>
             </div>
 
             <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s4">
+                    <label for="idade" class="active">Idade:</label>
+                    <input name="idade" th:field="*{idade}" id="idade" class="validate" placeholder="Informe o Idade">
+                </div>
+                <div class="input-field col s4">
+                    <label for="idade" class="active">Sexo:</label>
+                    <select th:field="*{sexopessoa}">
+                        <option value="MASCULINO" th:text="Masculino"></option>
+                        <option value="FEMININO" th:text="Feminino"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s4">
                     <label for="cep" class="active">Cep:</label>
-                    <input name="cep" th:field="*{cep}" id="cep" class="validate">
+                    <input name="cep" th:field="*{cep}" id="cep" class="validate" placeholder="Informe um Cep válido">
                 </div>
             </div>
 
             <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s4">
                     <label for="rua" class="active">Rua:</label>
-                    <input name="rua" th:field="*{rua}" id="rua" class="validate">
+                    <input name="rua" th:field="*{rua}" id="rua" class="validate" placeholder="Informe o Rua">
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s4">
                     <label for="bairro" class="active">Bairro:</label>
-                    <input name="bairro" th:field="*{bairro}" id="bairro" class="validate">
+                    <input name="bairro" th:field="*{bairro}" id="bairro" class="validate"
+                        placeholder="Informe o Bairro">
                 </div>
             </div>
 
             <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s4">
                     <label for="cidade" class="active">Cidade:</label>
-                    <input name="cidade" th:field="*{cidade}" id="cidade" class="validate">
+                    <input name="cidade" th:field="*{cidade}" id="cidade" class="validate"
+                        placeholder="Informe o Cidade">
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s1">
                     <label for="uf" class="active">UF:</label>
                     <input name="uf" th:field="*{uf}" id="uf" class="validate">
                 </div>
             </div>
 
             <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s4">
                     <label for="ibge" class="active">IBGE:</label>
-                    <input name="ibge" th:field="*{ibge}" id="ibge" class="validate">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="input-field col s12">
-                    <label for="idade" class="active">Idade:</label>
-                    <input name="idade" th:field="*{idade}" id="idade" class="validate">
+                    <input name="ibge" th:field="*{ibge}" id="ibge" class="validate"
+                        placeholder="Informe o código IBGE">
                 </div>
             </div>
 
@@ -125,27 +130,27 @@
         </form>
     </div>
     <br />
-
-    <nav>
-        <div class="nav-wrapper  blue-grey darken-4">
-            <form action="/pesquisarpessoa" method="post">
-                <div class="input-field">
-                    <input id="nomepesquisa" name="nomepesquisa" type="search" required>
-                    <label class="label-icon" for="nomepesquisa"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+    <div class="row">
+        <div class="input-field col s12">
+            <form action="/pesquisarpessoa" method="POST">
+                <div class="input-field col s3">
+                    <label for="nomepesquisa" class="active">Pesquisa por Nome</label>
+                    <input id="nomepesquisa" name="nomepesquisa" class="validate" placeholder="Pesquisa por Nome">
+                </div>
+                <div class="input-field col s3">
+                    <label class="active" for="sexopesquisa">Pesquisa por Sexo</label>
+                    <select name="sexopesquisa" id="sexopesquisa">
+                        <option value="">Todos</option>
+                        <option value="MASCULINO" th:text="Masculino"></option>
+                        <option value="FEMININO" th:text="Feminino"></option>
+                    </select>
+                </div>
+                <div class="input-field col s12">
+                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit" value="Buscar">
+                    <a href="/listapessoas" class="waves-effect waves-light btn  blue-grey darken-4">Listar Pessoas</a>
                 </div>
             </form>
         </div>
-    </nav>
-
-    <br />
-    <br />
-    <div class="row">
-        <table>
-            <div class="input-field col s12">
-                <a href="/listapessoas" class="waves-effect waves-light btn  blue-grey darken-4">Listar Pessoas</a>
-            </div>
-        </table>
     </div>
     <br />
     <br />
@@ -249,6 +254,7 @@
     </script>
 
     <script>
+
         function validarCampos() {
 
             nome = document.getElementById('nome').value;
@@ -273,6 +279,12 @@
             }
             return true;
         }
+    </script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
     </script>
 </body>
 

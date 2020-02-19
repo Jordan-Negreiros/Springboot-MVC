@@ -29,6 +29,7 @@ public class Pessoa implements Serializable {
     private String cidade;
     private String uf;
     private String ibge;
+    private String sexopessoa;
 
     @Min(value = 18, message = "Idade inválida")
     private int idade;
@@ -39,6 +40,14 @@ public class Pessoa implements Serializable {
     public List<Telefone> getTelefones() {
         return telefones;
     }
+    
+    public void setSexopessoa(String sexopessoa) {
+		this.sexopessoa = sexopessoa;
+	}
+    
+    public String getSexopessoa() {
+		return sexopessoa;
+	}
 
     public void setTelefones(List<Telefone> telefones) {
         this.telefones = telefones;
