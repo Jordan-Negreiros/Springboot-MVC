@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.Ordered;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -24,7 +25,7 @@ public class ProjectspringbootApplication implements WebMvcConfigurer {
     	
     	/*
     	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    	String result = encoder.encode("123456");
+    	String result = encoder.encode("123");
     	System.out.println(result);
     	*/
     }
