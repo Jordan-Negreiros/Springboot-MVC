@@ -34,5 +34,6 @@ public class ProjectspringbootApplication implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("/login");
         registry.setOrder(Ordered.LOWEST_PRECEDENCE);
     }
+    
 }
 
