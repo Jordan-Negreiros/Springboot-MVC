@@ -9,81 +9,92 @@ import java.util.List;
 
 @Entity
 public class Pessoa implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @NotNull(message = "Nome não pode ser Nulo")
-    @NotEmpty(message = "Nome não pode ser Vazio")
-    private String nome;
+	@NotNull(message = "Nome não pode ser Nulo")
+	@NotEmpty(message = "Nome não pode ser Vazio")
+	private String nome;
 
-    @NotNull(message = "Sobrenome não pode ser Nulo")
-    @NotEmpty(message = "Sobrenome não pode ser Vazio")
-    private String sobrenome;
-    
-    private String cep;
-    private String rua;
-    private String bairro;
-    private String cidade;
-    private String uf;
-    private String ibge;
-    private String sexopessoa;
+	@NotNull(message = "Sobrenome não pode ser Nulo")
+	@NotEmpty(message = "Sobrenome não pode ser Vazio")
+	private String sobrenome;
 
-    @Min(value = 18, message = "Idade inválida")
-    private int idade;
+	private String cep;
+	private String rua;
+	private String bairro;
+	private String cidade;
+	private String uf;
+	private String ibge;
+	private String sexopessoa;
 
-    @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Telefone> telefones;
+	@ManyToOne
+	private Profissao profissao;
 
-    public List<Telefone> getTelefones() {
-        return telefones;
-    }
-    
-    public void setSexopessoa(String sexopessoa) {
+	@Min(value = 18, message = "Idade inválida")
+	private int idade;
+
+	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<Telefone> telefones;
+
+	public List<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public Profissao getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(Profissao profissao) {
+		this.profissao = profissao;
+	}
+
+	public void setSexopessoa(String sexopessoa) {
 		this.sexopessoa = sexopessoa;
 	}
-    
-    public String getSexopessoa() {
+
+	public String getSexopessoa() {
 		return sexopessoa;
 	}
 
-    public void setTelefones(List<Telefone> telefones) {
-        this.telefones = telefones;
-    }
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
+	}
 
-    public int getIdade() {
-        return idade;
-    }
+	public int getIdade() {
+		return idade;
+	}
 
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getSobrenome() {
-        return sobrenome;
-    }
+	public String getSobrenome() {
+		return sobrenome;
+	}
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
-    }
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
 
 	public String getCep() {
 		return cep;
@@ -132,7 +143,5 @@ public class Pessoa implements Serializable {
 	public void setIbge(String ibge) {
 		this.ibge = ibge;
 	}
-    
-    
-}
 
+}

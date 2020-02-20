@@ -3,6 +3,7 @@ package com.jordan.controller;
 import com.jordan.model.Pessoa;
 import com.jordan.model.Telefone;
 import com.jordan.repository.PessoaRepository;
+import com.jordan.repository.ProfissaoRepository;
 import com.jordan.repository.TelefoneRepository;
 import com.jordan.utils.ReportUtil;
 
@@ -29,7 +30,9 @@ public class PessoaController {
     private TelefoneRepository telefoneRepository;
     @Autowired
     private ReportUtil<Pessoa> reportUtil;
-
+    @Autowired
+    private ProfissaoRepository profissaoRepository;
+    
     @RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
     public ModelAndView inicio() {
 
@@ -37,6 +40,8 @@ public class PessoaController {
         Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
         andView.addObject("pessoas", pessoaIterable);
         andView.addObject("pessoaobj", new Pessoa());
+        andView.addObject("profissoes", profissaoRepository.findAll());
+        
         return andView;
     }
 
@@ -51,6 +56,7 @@ public class PessoaController {
             Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
             andView.addObject("pessoas", pessoaIterable);
             andView.addObject("pessoaobj", pessoa);
+            andView.addObject("profissoes", profissaoRepository.findAll());
 
             List<String> msg = new ArrayList<>();
             for (ObjectError objectError : bindingResult.getAllErrors()) {
@@ -67,6 +73,7 @@ public class PessoaController {
             Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
             andView.addObject("pessoas", pessoaIterable);
             andView.addObject("pessoaobj", new Pessoa());
+            andView.addObject("profissoes", profissaoRepository.findAll());
 
             return andView;
         }
@@ -79,6 +86,7 @@ public class PessoaController {
         Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
         andView.addObject("pessoas", pessoaIterable);
         andView.addObject("pessoaobj", new Pessoa());
+        andView.addObject("profissoes", profissaoRepository.findAll());
 
         return andView;
     }
@@ -89,6 +97,7 @@ public class PessoaController {
         ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
         Optional<Pessoa> pessoa = pessoaRepository.findById(idpessoa);
         andView.addObject("pessoaobj", pessoa.get());
+        andView.addObject("profissoes", profissaoRepository.findAll());
 
         return andView;
     }
@@ -119,6 +128,7 @@ public class PessoaController {
         ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
         andView.addObject("pessoas", pessoas);
         andView.addObject("pessoaobj", new Pessoa());
+        andView.addObject("profissoes", profissaoRepository.findAll());
 
         return andView;
     }
