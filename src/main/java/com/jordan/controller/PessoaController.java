@@ -4,6 +4,8 @@ import com.jordan.model.Pessoa;
 import com.jordan.model.Telefone;
 import com.jordan.repository.PessoaRepository;
 import com.jordan.repository.TelefoneRepository;
+import com.jordan.utils.ReportUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,8 @@ public class PessoaController {
     private PessoaRepository pessoaRepository;
     @Autowired
     private TelefoneRepository telefoneRepository;
+    @Autowired
+    private ReportUtil<Pessoa> reportUtil;
 
     @RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
     public ModelAndView inicio() {
@@ -115,6 +121,52 @@ public class PessoaController {
         andView.addObject("pessoaobj", new Pessoa());
 
         return andView;
+    }
+    
+    @GetMapping("**/pesquisarpessoa")
+    public void imprimePDF(@RequestParam("nomepesquisa") String nomepesquisa,
+    		@RequestParam("sexopesquisa") String sexopesquisa,
+    		HttpServletRequest request,
+    		HttpServletResponse response) throws Exception{
+    	
+    	List<Pessoa> pessoas = new ArrayList<Pessoa>();
+    	
+    	if (sexopesquisa != null && !sexopesquisa.isEmpty() && nomepesquisa != null && !nomepesquisa.isEmpty()) { /* Busca por nome e sexo */
+    		
+			pessoas = pessoaRepository.findPessoaByNameSexo(nomepesquisa, sexopesquisa);
+			
+		} else if (nomepesquisa != null && !nomepesquisa.isEmpty()) { /* Busca somente por nome */
+			
+			pessoas = pessoaRepository.findPessoaByName(nomepesquisa);
+			
+		} else if (sexopesquisa != null && !sexopesquisa.isEmpty()) { /* Busca somente por sexo */
+			
+			pessoas = pessoaRepository.findPessoaBySexo(sexopesquisa);
+			
+		} else { /* Busca todos */
+			
+			Iterable<Pessoa> iterator = pessoaRepository.findAll();
+			for (Pessoa pessoa : iterator) {
+				pessoas.add(pessoa);
+			}
+		}
+    	
+    	/* Chama o serviço que faz a geração do relatório */
+    	byte[] pdf = reportUtil.gerarRelatorio(pessoas, "pessoa", request.getServletContext());
+    	
+    	/* Tamanho da resposta */
+    	response.setContentLength(pdf.length);
+    	
+    	/* Definir resposta o tipo do arquivo */
+    	response.setContentType("application/octet-stream");
+    	
+    	/* Definir o cabeçalho da resposta */
+    	String headerKey = "Content-Disposition";
+    	String headerValue = String.format("attachment; filename=\"%s\"", "relatorio.pdf");
+    	response.setHeader(headerKey, headerValue);
+    	
+    	/* Finaliza a resposta pro navegador */
+    	response.getOutputStream().write(pdf);
     }
 
     @GetMapping("/telefones/{idpessoa}")

@@ -132,7 +132,7 @@
     <br />
     <div class="row">
         <div class="input-field col s12">
-            <form action="/pesquisarpessoa" method="POST">
+            <form action="/pesquisarpessoa" method="POST" id="pesquisarpessoa">
                 <div class="input-field col s3">
                     <label for="nomepesquisa" class="active">Pesquisa por Nome</label>
                     <input id="nomepesquisa" name="nomepesquisa" class="validate" placeholder="Pesquisa por Nome">
@@ -146,7 +146,12 @@
                     </select>
                 </div>
                 <div class="input-field col s12">
-                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit" value="Buscar">
+                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit" 
+                    value="Relatório PDF" onclick="document.getElementById('pesquisarpessoa').method = 'get'">
+                    
+                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit" 
+                    onclick="document.getElementById('pesquisarpessoa').method = 'post'" value="Buscar">
+
                     <a href="/listapessoas" class="waves-effect waves-light btn  blue-grey darken-4">Listar Pessoas</a>
                 </div>
             </form>
