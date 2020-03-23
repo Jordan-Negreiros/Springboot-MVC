@@ -1,10 +1,13 @@
 package com.jordan.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -36,6 +39,10 @@ public class Pessoa implements Serializable {
 
 	@Min(value = 18, message = "Idade inválida")
 	private int idade;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	private Date dataNascimento;
 
 	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Telefone> telefones;
@@ -144,4 +151,11 @@ public class Pessoa implements Serializable {
 		this.ibge = ibge;
 	}
 
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
 }
