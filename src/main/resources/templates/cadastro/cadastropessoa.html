@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -13,8 +13,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 
-
-
     <!-- Adicionando JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -22,7 +20,7 @@
 
 
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
 
     <style type="text/css">
         form input[type=submit] {
@@ -36,26 +34,30 @@
 </head>
 
 <body>
-    <nav>
-        <div class="nav-wrapper  blue-grey darken-4">
-            <a href="#" class="brand-logo center">Cadastro Pessoas</a>
-            <ul id="nav-mobile" class="left hide-on-med-and-down">
-                <li><a href="/">Início</a></li>
-                <li><a href="/cadastropessoa">Cadastro</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
-    <br />
-    <br />
-    <div th:each="m : ${msg}">
-        <span th:text="${m}"></span>
+
+
+<nav>
+    <div class="nav-wrapper  blue-grey darken-4">
+        <a href="#" class="brand-logo center">Cadastro Pessoas</a>
+
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/"><i class="small material-icons">home</i></a></li>
+            <li><a href="/cadastropessoa"><i class="small material-icons">person_add</i></a></li>
+            <li><a href="/logout"><i class="small material-icons">exit_to_app</i></a></li>
+        </ul>
     </div>
-    <br />
-    <br />
+</nav>
+<br/>
+<br/>
+<div th:each="m : ${msg}">
+    <span th:text="${m}"></span>
+</div>
+<br/>
+<br/>
+<div class="container">
     <div class="row">
         <form action="/salvarpessoa" method="post" th:object="${pessoaobj}" class="col s12" id="formpessoa"
-            onsubmit="return !!validarCampos()">
+              onsubmit="return !!validarCampos()" enctype="multipart/form-data">
             <div class="row">
                 <div class="input-field col s1">
                     <label for="id" class="active">ID:</label>
@@ -64,23 +66,25 @@
             </div>
 
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="nome" class="active">Nome:</label>
-                    <input name="nome" th:field="*{nome}" id="nome" class="validate" placeholder="Informe o Nome">
+                    <input name="nome" th:field="*{nome}" id="nome" class="validate"
+                           placeholder="Informe o Nome">
                 </div>
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="sobrenome" class="active">Sobrenome:</label>
                     <input name="sobrenome" th:field="*{sobrenome}" id="sobrenome" class="validate"
-                        placeholder="Informe o Sobrenome">
+                           placeholder="Informe o Sobrenome">
                 </div>
             </div>
 
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="idade" class="active">Idade:</label>
-                    <input name="idade" th:field="*{idade}" id="idade" class="validate" placeholder="Informe o Idade">
+                    <input name="idade" th:field="*{idade}" id="idade" class="validate"
+                           placeholder="Informe o Idade">
                 </div>
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="sexo" class="active">Sexo:</label>
                     <select th:field="*{sexopessoa}" id="sexo">
                         <option value="MASCULINO" th:text="Masculino"></option>
@@ -90,11 +94,12 @@
             </div>
 
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="cep" class="active">Cep:</label>
-                    <input name="cep" th:field="*{cep}" id="cep" class="validate" placeholder="Informe um Cep válido">
+                    <input name="cep" th:field="*{cep}" id="cep" class="validate"
+                           placeholder="Informe um Cep válido">
                 </div>
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="profissao" class="active">Profissão:</label>
                     <select th:field="*{profissao}" id="profissao">
                         <option th:each="p : ${profissoes}" th:value="${p.id}" th:text="${p.nome}"></option>
@@ -103,7 +108,7 @@
             </div>
 
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="dataNascimento" class="active">Data Nascimento:</label>
                     <input type="date" id="dataNascimento" th:field="*{dataNascimento}"
                            name="dataNascimento" placeholder="Data Nasc" class="date-picker">
@@ -111,22 +116,22 @@
             </div>
 
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="rua" class="active">Rua:</label>
                     <input name="rua" th:field="*{rua}" id="rua" class="validate" placeholder="Informe o Rua">
                 </div>
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="bairro" class="active">Bairro:</label>
                     <input name="bairro" th:field="*{bairro}" id="bairro" class="validate"
-                        placeholder="Informe o Bairro">
+                           placeholder="Informe o Bairro">
                 </div>
             </div>
 
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="cidade" class="active">Cidade:</label>
                     <input name="cidade" th:field="*{cidade}" id="cidade" class="validate"
-                        placeholder="Informe o Cidade">
+                           placeholder="Informe o Cidade">
                 </div>
                 <div class="input-field col s1">
                     <label for="uf" class="active">UF:</label>
@@ -135,10 +140,17 @@
             </div>
 
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                     <label for="ibge" class="active">IBGE:</label>
                     <input name="ibge" th:field="*{ibge}" id="ibge" class="validate"
-                        placeholder="Informe o código IBGE">
+                           placeholder="Informe o código IBGE">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="file" class="active">Currículo</label>
+                    <input type="file" id="file" name="file" class="file-path validate">
                 </div>
             </div>
 
@@ -146,14 +158,16 @@
                 <div class="input-field col s12">
                     <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit" value="salvar">
                     <button class="waves-effect waves-light btn  blue-grey darken-4"
-                        onclick="document.getElementById('formpessoa').reset();">
+                            onclick="document.getElementById('formpessoa').reset();">
                         Novo
                     </button>
                 </div>
             </div>
         </form>
     </div>
-    <br />
+</div>
+<br/>
+<div class="container">
     <div class="row">
         <div class="input-field col s12">
             <form action="/pesquisarpessoa" method="POST" id="pesquisarpessoa">
@@ -170,156 +184,206 @@
                     </select>
                 </div>
                 <div class="input-field col s12">
-                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit" 
-                    value="Relatório PDF" onclick="document.getElementById('pesquisarpessoa').method = 'get'">
-                    
-                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit" 
-                    onclick="document.getElementById('pesquisarpessoa').method = 'post'" value="Buscar">
+                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit"
+                           value="Relatório PDF" onclick="document.getElementById('pesquisarpessoa').method = 'get'">
+
+                    <input class="waves-effect waves-light btn  blue-grey darken-4" type="submit"
+                           onclick="document.getElementById('pesquisarpessoa').method = 'post'" value="Buscar">
 
                     <a href="/listapessoas" class="waves-effect waves-light btn  blue-grey darken-4">Listar Pessoas</a>
                 </div>
             </form>
         </div>
     </div>
-    <br />
-    <br />
-    <nav>
-        <div class="nav-wrapper  blue-grey darken-4">
-            <a href="#" class="brand-logo center">Usuários Cadastrados</a>
-            <ul id="nav-mobile2" class="left hide-on-med-and-down">
-            </ul>
-        </div>
-    </nav>
-    <br />
-    <br />
-
+</div>
+<br/>
+<br/>
+<nav>
+    <div class="nav-wrapper  blue-grey darken-4">
+        <a href="#" class="brand-logo center">Usuários Cadastrados</a>
+        <ul id="nav-mobile2" class="left hide-on-med-and-down">
+        </ul>
+    </div>
+</nav>
+<br/>
+<br/>
+<div class="container">
     <table class="centered striped blue-grey lighten-5">
         <tr style="font-weight: bold">
             <td>Id</td>
             <td>Nome</td>
             <td>Sobrenome</td>
-            <td>Idade</td>
+            <td>Currículo</td>
             <td>Editar</td>
             <td>Excluir</td>
         </tr>
 
-        <tr th:each="pessoa : ${pessoas}">
+        <tr th:each="pessoa : ${pessoas.content}">
             <td th:text="${pessoa.id}"></td>
             <td><a th:href="@{/telefones/{idpessoa}(idpessoa = ${pessoa.id})}"><span
-                        th:text="${pessoa.nome}"></span></a></td>
+                    th:text="${pessoa.nome}"></span></a></td>
             <td th:text="${pessoa.sobrenome}"></td>
-            <td th:text="${pessoa.idade}"></td>
-            <td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa = ${pessoa.id})}">Editar</a></td>
-            <td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa = ${pessoa.id})}">Excluir</a></td>
+            <td><a th:if="${pessoa.curriculo != null}" th:href="@{/baixarcurriculo/{idpessoa}(idpessoa = ${pessoa.id})}"><i class="small material-icons">file_download</i></a>
+                <a th:if="${pessoa.curriculo == null}"><i class="small material-icons">block</i></a>
+            </td>
+            <td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa = ${pessoa.id})}"><i
+                    class="small material-icons">edit</i></a></td>
+            <td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa = ${pessoa.id})}"><i class="small material-icons">delete</i></a>
+            </td>
         </tr>
     </table>
-    <!-- Adicionando Javascript -->
-    <script type="text/javascript">
+    <div class="row" style="margin-top: 30px">
+        <center>
 
-        $(document).ready(function () {
+                <ul class="pagination" style="display: inline-block">
+                    <li th:if="${pessoas.hasPrevious()}" >
+                        <a th:href="@{/pessoaspag(page=${pessoas.number -1}, size=${pessoas.size})}" ><i class="material-icons">chevron_left</i></a>
+                    </li>
+                    <th:block th:each="i: ${#numbers.sequence(0, pessoas.totalPages - 1)}">
+                        <li th:classappend="${pessoas.number == i} ? 'active blue-grey darken-4'  : 'waves-effect'"><a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size})}">[[ ${i} + 1 ]]</a></li>
+                    </th:block>
+                    <li th:if="${pessoas.hasNext()}" >
+                        <a th:href="@{/pessoaspag(page=${pessoas.number +1}, size=${pessoas.size})}" ><i class="material-icons">chevron_right</i></a>
+                    </li>
+                </ul>
 
-            $('#dataNascimento').datepicker({
-                showOthermonths:true,
-                format: 'yyyy-mm-dd'
-            });
+        </center>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+</div>
+<!-- Adicionando Javascript -->
+<script type="text/javascript">
 
-            function limpa_formulário_cep() {
-                // Limpa valores do formulário de cep.
-                $("#rua").val("");
-                $("#bairro").val("");
-                $("#cidade").val("");
-                $("#uf").val("");
-                $("#ibge").val("");
-            }
+    $(document).ready(function () {
 
-            //Quando o campo cep perde o foco.
-            $("#cep").blur(function () {
+        $('#dataNascimento').datepicker({
+            showOthermonths: true,
+            format: 'yyyy-mm-dd'
+        });
 
-                //Nova variável "cep" somente com dígitos.
-                var cep = $(this).val().replace(/\D/g, '');
+        function limpa_formulário_cep() {
+            // Limpa valores do formulário de cep.
+            $("#rua").val("");
+            $("#bairro").val("");
+            $("#cidade").val("");
+            $("#uf").val("");
+            $("#ibge").val("");
+        }
 
-                //Verifica se campo cep possui valor informado.
-                if (cep != "") {
+        //Quando o campo cep perde o foco.
+        $("#cep").blur(function () {
 
-                    //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
+            //Nova variável "cep" somente com dígitos.
+            var cep = $(this).val().replace(/\D/g, '');
 
-                    //Valida o formato do CEP.
-                    if (validacep.test(cep)) {
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
 
-                        //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#rua").val("...");
-                        $("#bairro").val("...");
-                        $("#cidade").val("...");
-                        $("#uf").val("...");
-                        $("#ibge").val("...");
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
 
-                        //Consulta o webservice viacep.com.br/
-                        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
 
-                            if (!("erro" in dados)) {
-                                //Atualiza os campos com os valores da consulta.
-                                $("#rua").val(dados.logradouro);
-                                $("#bairro").val(dados.bairro);
-                                $("#cidade").val(dados.localidade);
-                                $("#uf").val(dados.uf);
-                                $("#ibge").val(dados.ibge);
-                            } //end if.
-                            else {
-                                //CEP pesquisado não foi encontrado.
-                                limpa_formulário_cep();
-                                alert("CEP não encontrado.");
-                            }
-                        });
-                    } //end if.
-                    else {
-                        //cep é inválido.
-                        limpa_formulário_cep();
-                        alert("Formato de CEP inválido.");
-                    }
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    $("#rua").val("...");
+                    $("#bairro").val("...");
+                    $("#cidade").val("...");
+                    $("#uf").val("...");
+                    $("#ibge").val("...");
+
+                    //Consulta o webservice viacep.com.br/
+                    $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                        if (!("erro" in dados)) {
+                            //Atualiza os campos com os valores da consulta.
+                            $("#rua").val(dados.logradouro);
+                            $("#bairro").val(dados.bairro);
+                            $("#cidade").val(dados.localidade);
+                            $("#uf").val(dados.uf);
+                            $("#ibge").val(dados.ibge);
+                        } //end if.
+                        else {
+                            //CEP pesquisado não foi encontrado.
+                            limpa_formulário_cep();
+                            alert("CEP não encontrado.");
+                        }
+                    });
                 } //end if.
                 else {
-                    //cep sem valor, limpa formulário.
+                    //cep é inválido.
                     limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
                 }
-            });
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
         });
+    });
 
-    </script>
+</script>
 
-    <script>
+<script>
 
-        function validarCampos() {
+    function validarCampos() {
 
-            nome = document.getElementById('nome').value;
-            sobrenome = document.getElementById('sobrenome').value;
-            idade = document.getElementById('idade').value;
+        nome = document.getElementById('nome').value;
+        sobrenome = document.getElementById('sobrenome').value;
+        idade = document.getElementById('idade').value;
 
-            if (nome === '') {
-                alert('nome deve ser informado');
-                return false;
-            }
-            else if (sobrenome === '') {
-                alert('Sobrenome deve ser informado');
-                return false;
-            }
-            else if (idade === '' || idade == 0) {
-                alert('Idade deve ser informado');
-                return false;
-            }
-            else if (idade > 0 && idade < 18) {
-                alert('Idade deve ser maior que 18');
-                return false;
-            }
-            return true;
+        if (nome === '') {
+            alert('nome deve ser informado');
+            return false;
+        } else if (sobrenome === '') {
+            alert('Sobrenome deve ser informado');
+            return false;
+        } else if (idade === '' || idade == 0) {
+            alert('Idade deve ser informado');
+            return false;
+        } else if (idade > 0 && idade < 18) {
+            alert('Idade deve ser maior que 18');
+            return false;
         }
-    </script>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems);
-        });
-    </script>
-</body>
+        return true;
+    }
+</script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
 
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.btn');
+        var instances = M.Sidenav.init(elems);
+    });
+</script>
+</body>
+<footer class="page-footer blue-grey darken-4">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Projeto Spring MVC</h5>
+                <p class="grey-text text-lighten-4">Ultilizado Thymeleaf + JPA + Banco PostgreSQL</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/jordan-negreiros-2552a218b">Linkedin</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/jnegrei">Facebook</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/Jordan-Negreiros">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2020 Jordan Negreiros
+        </div>
+    </div>
+</footer>
 </html>

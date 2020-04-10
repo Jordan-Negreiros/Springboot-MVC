@@ -44,6 +44,13 @@ public class Pessoa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
+	@Lob
+	private byte[] curriculo;
+
+	private String nomeFileCurriculo;
+
+	private String tipoFileCurriculo;
+
 	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Telefone> telefones;
 
@@ -157,5 +164,29 @@ public class Pessoa implements Serializable {
 
 	public Date getDataNascimento() {
 		return dataNascimento;
+	}
+
+	public void setCurriculo(byte[] curriculo) {
+		this.curriculo = curriculo;
+	}
+
+	public byte[] getCurriculo() {
+		return curriculo;
+	}
+
+	public String getNomeFileCurriculo() {
+		return nomeFileCurriculo;
+	}
+
+	public void setNomeFileCurriculo(String nomeFileCurriculo) {
+		this.nomeFileCurriculo = nomeFileCurriculo;
+	}
+
+	public String getTipoFileCurriculo() {
+		return tipoFileCurriculo;
+	}
+
+	public void setTipoFileCurriculo(String tipoFileCurriculo) {
+		this.tipoFileCurriculo = tipoFileCurriculo;
 	}
 }

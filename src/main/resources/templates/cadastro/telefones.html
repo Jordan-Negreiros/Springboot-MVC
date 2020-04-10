@@ -9,44 +9,47 @@
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 
     <style type="text/css">
         form input[type=submit] {
             color: white;
         }
+
         body {
-            background-color: #eceff1 ;
+            background-color: #eceff1;
         }
     </style>
 </head>
 <body>
 <nav>
-<div class="nav-wrapper blue-grey darken-4">
-    <a href="#" class="brand-logo center">Telefones</a>
-    <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="/">Início</a></li>
-        <li><a href="/cadastropessoa">Cadastro</a></li>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
-</div>
+    <div class="nav-wrapper blue-grey darken-4">
+        <a href="#" class="brand-logo center">Telefones</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/"><i class="small material-icons">home</i></a></li>
+            <li><a href="/cadastropessoa"><i class="small material-icons">person_add</i></a></li>
+            <li><a href="/logout"><i class="small material-icons">exit_to_app</i></a></li>
+        </ul>
+    </div>
 </nav>
 <br/>
 <br/>
-<div class="row">
-    <div class="col s12 m4">
-        <div class="card blue-grey darken-4">
-            <div class="card-content white-text">
-                <span class="card-title">Dados:</span>
-            <div th:each="p : ${pessoaobj}">
-                <div class="row">
-                    <p>ID: <span th:text="${p.id}"></span></p>
-                    <p>Nome: <span th:text="${p.nome}"></span></p>
-                    <p>Sobrenome: <span th:text="${p.sobrenome}"></span></p>
-                    <p>idade: <span th:text="${p.idade}"></span></p>
+<div class="container">
+    <div class="row">
+        <div class="col s12 m4">
+            <div class="card blue-grey darken-4">
+                <div class="card-content white-text">
+                    <span class="card-title">Usuário:</span>
+                    <div th:each="p : ${pessoaobj}">
+                        <div class="row">
+                            <p>ID: <span th:text="${p.id}"></span></p>
+                            <p>Nome: <span th:text="${p.nome}"></span></p>
+                            <p>Sobrenome: <span th:text="${p.sobrenome}"></span></p>
+                            <p>idade: <span th:text="${p.idade}"></span></p>
+                        </div>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -67,20 +70,23 @@
 </div>
 <br/>
 <br/>
-<div class="row">
-    <form th:action="@{/addfonepessoa/{pessoaid}(pessoaid = ${pessoaobj.id})}" method="post" class="col s12" onsubmit="return !!validarCampos()">
-        <div class="row">
-            <div class="input-field col s6">
-                <label class="active" for="numero">Número</label>
-                <input id="numero" name="numero" class="validate">
+<div class="container">
+    <div class="row">
+        <form th:action="@{/addfonepessoa/{pessoaid}(pessoaid = ${pessoaobj.id})}" method="post" class="col s12"
+              onsubmit="return !!validarCampos()">
+            <div class="row">
+                <div class="input-field col s6">
+                    <label class="active" for="numero">Número</label>
+                    <input id="numero" name="numero" class="validate">
+                </div>
+                <div class="input-field col s6">
+                    <label class="active" for="tipo">Tipo:</label>
+                    <input id="tipo" name="tipo" class="validate">
+                </div>
+                <input class="btn waves-effect waves-light blue-grey darken-4" type="submit" value="Adicionar">
             </div>
-            <div class="input-field col s6">
-                <label class="active" for="tipo">Tipo:</label>
-                <input id="tipo" name="tipo" class="validate">
-            </div>
-            <input class="btn waves-effect waves-light blue-grey darken-4" type="submit" value="Adicionar">
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 <br/>
 <br/>
@@ -93,21 +99,23 @@
 </nav>
 <br/>
 <br/>
-<table class="centered striped blue-grey lighten-5">
-    <tr style="font-weight: bold">
-        <td>Número</td>
-        <td>Tipo</td>
-        <td>Editar</td>
-        <td>Excluir</td>
-    </tr>
+<div class="container">
+    <table class="centered striped blue-grey lighten-5">
+        <tr style="font-weight: bold">
+            <td>Número</td>
+            <td>Tipo</td>
+            <td>Editar</td>
+            <td>Excluir</td>
+        </tr>
 
-    <tr th:each="fone : ${telefones}">
-        <td th:text="${fone.numero}"></td>
-        <td th:text="${fone.tipo}"></td>
-        <td><a>Editar</a></td>
-        <td><a th:href="@{/removertelefone/{idtelefone}(idtelefone = ${fone.id})}">Excluir</a></td>
-    </tr>
-</table>
+        <tr th:each="fone : ${telefones}">
+            <td th:text="${fone.numero}"></td>
+            <td th:text="${fone.tipo}"></td>
+            <td><a><i class="small material-icons">edit</i></a></td>
+            <td><a th:href="@{/removertelefone/{idtelefone}(idtelefone = ${fone.id})}"><i class="small material-icons">delete</i></a></td>
+        </tr>
+    </table>
+</div>
 <script>
     function validarCampos() {
 
@@ -117,8 +125,7 @@
         if (numero === '') {
             alert('Número deve ser informado');
             return false;
-        }
-        else if (tipo === '') {
+        } else if (tipo === '') {
             alert('Tipo deve ser informado');
             return false;
         }
@@ -126,4 +133,27 @@
     }
 </script>
 </body>
+<footer class="page-footer blue-grey darken-4">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Projeto Spring MVC</h5>
+                <p class="grey-text text-lighten-4">Ultilizado Thymeleaf + JPA + Banco PostgreSQL</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/jordan-negreiros-2552a218b">Linkedin</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/jnegrei">Facebook</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/Jordan-Negreiros">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2020 Jordan Negreiros
+        </div>
+    </div>
+</footer>
 </html>

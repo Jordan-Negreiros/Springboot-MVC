@@ -8,15 +8,22 @@ import com.jordan.repository.TelefoneRepository;
 import com.jordan.utils.ReportUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,29 +39,39 @@ public class PessoaController {
     private ReportUtil<Pessoa> reportUtil;
     @Autowired
     private ProfissaoRepository profissaoRepository;
-    
-    @RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
+
+    @GetMapping("/cadastropessoa")
     public ModelAndView inicio() {
 
         ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
-        Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
-        andView.addObject("pessoas", pessoaIterable);
+        andView.addObject("pessoas", pessoaRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
         andView.addObject("pessoaobj", new Pessoa());
         andView.addObject("profissoes", profissaoRepository.findAll());
         
         return andView;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "**/salvarpessoa")
-    public ModelAndView salvar(@Valid Pessoa pessoa, BindingResult bindingResult) {
+    @GetMapping("/pessoaspag")
+    public ModelAndView carregaPessoaPorPaginacao(@PageableDefault(size = 5)Pageable pageable, ModelAndView model) {
+
+        Page<Pessoa> pagePessoa = pessoaRepository.findAll(pageable);
+        model.addObject("pessoas", pagePessoa);
+        model.addObject("pessoaobj", new Pessoa());
+        model.setViewName("cadastro/cadastropessoa");
+
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "**/salvarpessoa", consumes = {"multipart/form-data"})
+    public ModelAndView salvar(@Valid Pessoa pessoa,
+                               BindingResult bindingResult, final MultipartFile file) throws IOException {
 
     	pessoa.setTelefones(telefoneRepository.getTelefones(pessoa.getId()));
     	
         if (bindingResult.hasErrors()) {
             ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
 
-            Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
-            andView.addObject("pessoas", pessoaIterable);
+            andView.addObject("pessoas", pessoaRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
             andView.addObject("pessoaobj", pessoa);
             andView.addObject("profissoes", profissaoRepository.findAll());
 
@@ -66,12 +83,26 @@ public class PessoaController {
 
             return andView;
         } else {
+
+            if (file.getSize() > 0) {
+
+                pessoa.setCurriculo(file.getBytes());
+                pessoa.setNomeFileCurriculo(file.getOriginalFilename());
+                pessoa.setTipoFileCurriculo(file.getContentType());
+
+            } else if (pessoa.getId() != null && pessoa.getId() > 0) { /* editando */
+
+                Pessoa pessoaTemp = pessoaRepository.findById(pessoa.getId()).get();
+                pessoa.setCurriculo(pessoaTemp.getCurriculo());
+                pessoa.setNomeFileCurriculo(pessoaTemp.getNomeFileCurriculo());
+                pessoa.setTipoFileCurriculo(pessoaTemp.getTipoFileCurriculo());
+            }
+
             pessoaRepository.save(pessoa);
 
             ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
 
-            Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
-            andView.addObject("pessoas", pessoaIterable);
+            andView.addObject("pessoas", pessoaRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
             andView.addObject("pessoaobj", new Pessoa());
             andView.addObject("profissoes", profissaoRepository.findAll());
 
@@ -83,8 +114,7 @@ public class PessoaController {
     public ModelAndView pessoas() {
 
         ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
-        Iterable<Pessoa> pessoaIterable = pessoaRepository.findAll();
-        andView.addObject("pessoas", pessoaIterable);
+        andView.addObject("pessoas", pessoaRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
         andView.addObject("pessoaobj", new Pessoa());
         andView.addObject("profissoes", profissaoRepository.findAll());
 
@@ -107,8 +137,9 @@ public class PessoaController {
         pessoaRepository.deleteById(idpessoa);
 
         ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
-        andView.addObject("pessoas", pessoaRepository.findAll());
+        andView.addObject("pessoas", pessoaRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
         andView.addObject("pessoaobj", new Pessoa());
+        andView.addObject("profissoes", profissaoRepository.findAll());
 
         return andView;
     }
@@ -236,5 +267,25 @@ public class PessoaController {
         andView.addObject("telefones", telefoneRepository.getTelefones(pessoa.getId()));
 
         return andView;
+    }
+
+    @GetMapping("**/baixarcurriculo/{idpessoa}")
+    public void baixarcurriculo(@PathVariable("idpessoa") Long idpessoa, HttpServletResponse response) throws IOException{
+
+        /* Consulta o objeto pessoa no banco de dados */
+        Pessoa pessoa = pessoaRepository.findById(idpessoa).get();
+        if (pessoa.getCurriculo() != null) {
+
+            /* Setar tamanho da resposta */
+            response.setContentLength(pessoa.getCurriculo().length);
+            /* Seta tipo do arquivo para download */
+            response.setContentType(pessoa.getTipoFileCurriculo());
+            /* define o cabeçalho da resposta */
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"", pessoa.getNomeFileCurriculo());
+            response.setHeader(headerKey, headerValue);
+            /* Finaliza a resposta passando o arquivo */
+            response.getOutputStream().write(pessoa.getCurriculo());
+        }
     }
 }
