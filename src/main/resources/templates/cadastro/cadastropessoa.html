@@ -173,7 +173,8 @@
             <form action="/pesquisarpessoa" method="POST" id="pesquisarpessoa">
                 <div class="input-field col s3">
                     <label for="nomepesquisa" class="active">Pesquisa por Nome</label>
-                    <input id="nomepesquisa" name="nomepesquisa" class="validate" placeholder="Pesquisa por Nome">
+                    <input id="nomepesquisa" name="nomepesquisa" class="validate" placeholder="Pesquisa por Nome"
+                    th:value="${nomepesquisa}">
                 </div>
                 <div class="input-field col s3">
                     <label class="active" for="sexopesquisa">Pesquisa por Sexo</label>
@@ -237,13 +238,15 @@
 
                 <ul class="pagination" style="display: inline-block">
                     <li th:if="${pessoas.hasPrevious()}" >
-                        <a th:href="@{/pessoaspag(page=${pessoas.number -1}, size=${pessoas.size})}" ><i class="material-icons">chevron_left</i></a>
+                        <a th:href="@{/pessoaspag(page=${pessoas.number -1}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}" ><i class="material-icons">chevron_left</i></a>
                     </li>
                     <th:block th:each="i: ${#numbers.sequence(0, pessoas.totalPages - 1)}">
-                        <li th:classappend="${pessoas.number == i} ? 'active blue-grey darken-4'  : 'waves-effect'"><a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size})}">[[ ${i} + 1 ]]</a></li>
+                        <li th:classappend="${pessoas.number == i} ? 'active blue-grey darken-4'  : 'waves-effect'">
+                            <a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}">[[ ${i} + 1 ]]</a>
+                        </li>
                     </th:block>
                     <li th:if="${pessoas.hasNext()}" >
-                        <a th:href="@{/pessoaspag(page=${pessoas.number +1}, size=${pessoas.size})}" ><i class="material-icons">chevron_right</i></a>
+                        <a th:href="@{/pessoaspag(page=${pessoas.number +1}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}" ><i class="material-icons">chevron_right</i></a>
                     </li>
                 </ul>
 
